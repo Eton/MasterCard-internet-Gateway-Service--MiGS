@@ -1,6 +1,5 @@
 ﻿// MIGS payment gateway using Asp.Net MVC5
-// https://github.com/mwd-au/MIGS-payment-gateway-MVC5
-// Based off https://gist.github.com/samnaseri/2211309
+// Based off https://github.com/mwd-au/MIGS-payment-gateway-MVC5
 
 using MigsPayments.Helpers;
 using System;
