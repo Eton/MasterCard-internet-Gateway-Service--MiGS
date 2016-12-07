@@ -1,0 +1,53 @@
+﻿@model MigsPayments.Helpers.QueryDRResponse
+@{
+    ViewBag.Title = "QuertDR";
+}
+@if (ViewBag.QueryDRStatus == "none")
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>QueryDR Confirmation</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <form action="@Url.RouteUrl("Default", new { action = "QueryDR", controller = "Payment" })" method="post" class="form-horizontal">
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">Merch Txn Ref</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="vpc_MerchTxnRef" value="merchtxnref" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">User</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="vpc_User" value="" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="vpc_Password" value="" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>QueryDR Complete</h2>
+            message : @Html.Raw(@Model.message)<br>
+            DRExists : @Html.Raw(@Model.DRExists)<br>
+            TxnResponseCode : @Html.Raw(@Model.TxnResponseCode)
+        </div>
+    </div>
+}

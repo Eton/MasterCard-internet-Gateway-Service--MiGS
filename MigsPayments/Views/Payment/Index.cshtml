@@ -1,0 +1,65 @@
+﻿@*// MIGS payment gateway using Asp.Net MVC5
+// https://github.com/mwd-au/MIGS-payment-gateway-MVC5
+// Based off https://gist.github.com/samnaseri/2211309*@
+
+@model MigsPayments.Helpers.PaymentResponse
+@{
+    ViewBag.Title = "Payment";
+}
+@if (ViewBag.PaymentStatus != "approved")
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Payment Confirmation</h2>
+            @if (ViewBag.PaymentStatus == "invalid")
+            {
+                <div class="alert alert-danger" role="alert">Error processing payment (@Model.ResponseCodeDescription). Please try again.</div>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <form action="@Url.RouteUrl("Default", new { action = "InitiatePayment", controller = "Payment" })" method="post" class="form-horizontal">
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">Order Info</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="vpc_OrderInfo" value="orderinfo" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">Merch Txn Ref</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="vpc_MerchTxnRef" value="merchtxnref" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">Amount</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="vpc_Amount" value="500" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Return URL</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="vpc_ReturnURL" value="@Url.RouteUrl("Default", new { action = "Index", controller = "Payment", String.Empty }, Request.Url.Scheme)" maxlength="255" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else {
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Payment Complete</h2>
+            <div class="alert alert-success" role="alert">Your payment was completed successfully. Your receipt number is: @Model.ReceiptNo.</div>
+        </div>
+    </div>
+}
+

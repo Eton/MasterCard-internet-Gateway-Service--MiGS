@@ -1,0 +1,49 @@
+﻿<?php
+        //Enter your code here, enjoy!
+
+	
+		    $array1 = array(
+			'vpc_Version' => '1',
+			'vpc_Command' => 'pay',
+			'vpc_MerchTxnRef' => 'merchtxnref',
+			'vpc_AccessCode' => '8E07509A',
+			'vpc_Merchant' => 'TEST088007354803',
+			'vpc_OrderInfo' => 'orderinfo',
+			'vpc_Locale' => 'en',
+			'vpc_Amount' => '500',
+			'vpc_ReturnURL' => '',
+			'vpc_SecureHashType' => 'SHA256'
+		);
+		
+		$array1['vpc_SecureHash'] = getHash($array1, '01C90FA381B2E605A1F541F9F1F3B85E');
+		
+		echo "vpc_SecureHash : " . $array1['vpc_SecureHash'] . "\n";
+		
+		function getHash($data, $secret)
+		{
+		ksort($data);
+		$hash = null;
+		foreach ($data as $k => $v){
+			if (in_array($k, array('vpc_SecureHash', 'vpc_SecureHashType'))) {
+				continue;
+			}
+			if ((strlen($v) > 0) && ((substr($k, 0, 4)=="vpc_") || (substr($k, 0, 5) =="user_"))) {
+				$hash .= $k . "=" . $v . "&";
+			}
+		}
+		$hash = rtrim($hash, "&");
+		return strtoupper(hash_hmac('SHA256', $hash, pack('H*', $secret)));
+	}
+
+
+
+$array = array("1" => "PHP code tester Sandbox Online",  
+              "foo" => "bar", 5 , 5 => 89009, 
+              "case" => "Random Stuff: " . rand(100,999),
+              "PHP Version" => phpversion()
+              );
+              
+foreach( $array as $key => $value ){
+    echo $key."\t=>\t".$value."\n";
+}
+
